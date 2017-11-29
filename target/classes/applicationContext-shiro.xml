@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	default-lazy-init="true" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+	<!-- shiro与spring整合 id与web.xml的相同 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" /> <!-- Shiro的核心安全接口,这个属性是必须的 -->
+		<property name="loginUrl" value="/login/doLogin.do" /> <!-- 认证提交地址 要求登录界面，默认为login.jsp -->
+		<property name="unauthorizedUrl" value="/refuse.do" /> <!-- 拒绝访问界面 -->
+		<property name="filters">
+			<map>
+				<entry key="logout" value-ref="systemLogout"></entry>
+			</map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/login/** =anon
+				/refuse.do =anon
+				/logout.do =logout
+				/** =authc
+			</value>
+		</property>
+	</bean>
+	<!-- 核心组件 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myRealm" />
+		<property name="cacheManager" ref="cacheManager"></property>
+		<property name="sessionManager" ref="sessionManager"></property>
+	</bean>
+	<!-- logout过滤器 -->
+	<bean id="systemLogout" class="cn.dubidubi.service.base.SystemLogout">
+		<property name="redirectUrl" value="/login/doLogin.do"></property>
+	</bean>
+	<!-- 定义执行的realm 需改变 -->
+	<bean id="myRealm" class="cn.dubidubi.service.base.LoginRealm">
+		<property name="credentialsMatcher" ref="credentialsMatcher"></property>
+	</bean>
+	<!-- 凭证解析器 指明解析几次与解密方式 -->
+	<bean id="credentialsMatcher"
+		class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		<property name="hashAlgorithmName" value="md5"></property>
+		<property name="hashIterations" value="3"></property>
+	</bean>
+	<!-- 定义缓存管理器 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"></property>
+	</bean>
+	<!-- session 管理器单位毫秒 -->
+	<bean id="sessionManager"
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="600000" />
+		<property name="deleteInvalidSessions" value="true" />
+		<property name="sessionIdUrlRewritingEnabled" value="false" />
+	</bean>
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证 -->
+	<!-- 配置以下两个bean即可实现此功能 -->
+	<!-- Enable Shiro Annotations for Spring-configured beans. Only run after 
+		the lifecycleBeanProcessor has run -->
+	<!-- 由于本例中并未使用Shiro注解,故注释掉这两个bean(个人觉得将权限通过注解的方式硬编码在程序中,查看起来不是很方便,没必要使用) -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" />
+	<!-- 开启shiro注解 -->
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+</beans>

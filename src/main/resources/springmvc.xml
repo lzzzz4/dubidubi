@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 需更改 扫描controll -->
+	<context:component-scan base-package="cn.dubidubi.controller"></context:component-scan>
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json</value>
+						<value>application/xml;charset=UTF-8</value>
+					</list>
+				</property>
+				<property name="features">
+					<list>
+						<!-- 默认的意思就是不配置这个属性，配置了就不是默认了 -->
+						<!-- 是否输出值为null的字段 ，默认是false -->
+
+						<value>WriteMapNullValue</value>
+						<value>WriteNullNumberAsZero</value>
+						<value>WriteNullListAsEmpty</value>
+						<value>WriteNullStringAsEmpty</value>
+						<value>WriteNullBooleanAsFalse</value>
+						<value>WriteDateUseDateFormat</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<!-- jsp视图解析器 配置返回的前缀后缀 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	<!-- 异常处理器 需更改 开启取消注释 -->
+	<!-- <bean class="cn.dubidubi.ssm.web.exception.handle.Test1"></bean> -->
+	<!-- 开启aop -->
+	<aop:config proxy-target-class="true"></aop:config>
+
+	<!-- 图片接受实现类 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+	<!-- 拦截器 需更改 开启取消注释 -->
+	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/**" /> <bean 
+		class="cn.dubidubi.ssm.web.interceptor.MyInterceptor"></bean> </mvc:interceptor> 
+		</mvc:interceptors> -->
+
+
+	<!-- shiro 跳转路径 -->
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.apache.shiro.authz.UnauthorizedException"> 
+					refuse
+				</prop>
+			</props>
+		</property>
+	</bean>
+</beans>
