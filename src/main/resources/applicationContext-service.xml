@@ -9,12 +9,15 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-
 	<context:component-scan base-package="cn.dubidubi.service"></context:component-scan>
 	<!-- 配置多线程定时处理 -->
-	<task:annotation-driven scheduler="myScheduler" />
+	<task:annotation-driven scheduler="myScheduler"
+		executor="myexecutor" />
 	<task:scheduler id="myScheduler" pool-size="5" />
 	<!-- 定时处理结束 -->
+	<!-- 配置异步处理 -->
+	<task:executor id="myexecutor" pool-size="5" />
+	<!-- 异步处理结束 -->
 	<bean name="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="druid"></property>

@@ -20,7 +20,7 @@
 				/login/** =anon
 				/refuse.do =anon
 				/logout.do =logout
-				/** =authc
+				/** =anon
 			</value>
 		</property>
 	</bean>
