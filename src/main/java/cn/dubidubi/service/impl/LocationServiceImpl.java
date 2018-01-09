@@ -13,10 +13,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.kevinsawicki.http.HttpRequest;
 
 import cn.dubidubi.dao.LocationMapper;
-import cn.dubidubi.model.GaoDeAddress;
 import cn.dubidubi.model.WxLocationDO;
-import cn.dubidubi.model.PushMessage;
-import cn.dubidubi.model.WxAll;
+import cn.dubidubi.model.dto.GaoDeAddressDTO;
+import cn.dubidubi.model.xml.PushMessage;
+import cn.dubidubi.model.xml.WxAll;
 import cn.dubidubi.service.LocationService;
 
 //用于处理定位相关及天气相关的api
@@ -30,14 +30,14 @@ public class LocationServiceImpl implements LocationService {
 	 * 得到城市
 	 */
 	@Override
-	public GaoDeAddress getCity(Double Longitude, Double Latitude) {
+	public GaoDeAddressDTO getCity(Double Longitude, Double Latitude) {
 		HttpRequest request = HttpRequest
 				.get("http://restapi.amap.com/v3/geocode/regeo?key=" + key + "&location=" + Longitude + "," + Latitude);
 		String body = request.body();
 		// System.out.println(body);
 		JSONObject jsonObject = JSON.parseObject(body);
 		JSONObject location = jsonObject.getJSONObject("regeocode");
-		GaoDeAddress gaoDeAddress = new GaoDeAddress();
+		GaoDeAddressDTO gaoDeAddress = new GaoDeAddressDTO();
 		gaoDeAddress.setFormatted_address(location.getString("formatted_address"));
 		JSONObject address = location.getJSONObject("addressComponent");
 		gaoDeAddress.setAdcode(address.getString("adcode"));
@@ -47,8 +47,8 @@ public class LocationServiceImpl implements LocationService {
 
 	// 得到天气
 	@Override
-	public GaoDeAddress getWeather(Double Longitude, Double Latitude) {
-		GaoDeAddress gaoDeAddress = getCity(Longitude, Latitude);
+	public GaoDeAddressDTO getWeather(Double Longitude, Double Latitude) {
+		GaoDeAddressDTO gaoDeAddress = getCity(Longitude, Latitude);
 		HttpRequest request = HttpRequest
 				.get("http://restapi.amap.com/v3/weather/weatherInfo?key=" + key + "&city=" + gaoDeAddress.getAdcode());
 		String body = request.body();

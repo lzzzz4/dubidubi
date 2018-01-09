@@ -290,26 +290,13 @@
 			<version>${lucene.version}</version>
 		</dependency>
 		<!-- webmagic -->
-		<dependency>
-			<groupId>us.codecraft</groupId>
-			<artifactId>webmagic-core</artifactId>
-			<version>0.7.3</version>
-		</dependency>
-		<dependency>
-			<groupId>us.codecraft</groupId>
-			<version>0.7.3</version>
-			<artifactId>webmagic-extension</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-			<version>1.11.2</version>
-		</dependency>
+		<!-- 与tomcat jar包冲突 -->
+		<!-- <dependency> <groupId>us.codecraft</groupId> <artifactId>webmagic-core</artifactId> 
+			<version>0.7.3</version> </dependency> <dependency> <groupId>us.codecraft</groupId> 
+			<version>0.7.3</version> <artifactId>webmagic-extension</artifactId> </dependency> 
+			<dependency> <groupId>commons-collections</groupId> <artifactId>commons-collections</artifactId> 
+			<version>3.2.1</version> </dependency> <dependency> <groupId>org.jsoup</groupId> 
+			<artifactId>jsoup</artifactId> <version>1.11.2</version> </dependency> -->
 	</dependencies>
 	<build>
 		<plugins>

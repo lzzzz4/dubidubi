@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.thoughtworks.xstream.XStream;
 
-import cn.dubidubi.model.WxAll;
 import cn.dubidubi.model.dto.WXUrlParameter;
+import cn.dubidubi.model.xml.WxAll;
 import cn.dubidubi.service.LocationService;
 import cn.dubidubi.service.MessageService;
 import cn.dubidubi.util.SerializeXmlUtil;

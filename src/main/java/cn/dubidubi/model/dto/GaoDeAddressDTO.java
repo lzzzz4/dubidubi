@@ -1,4 +1,4 @@
-package cn.dubidubi.model;
+package cn.dubidubi.model.dto;
 
 import java.io.Serializable;
 /**
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author 16224
  *
  */
-public class GaoDeAddress implements Serializable{
+public class GaoDeAddressDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String formatted_address;
 	private String adcode;

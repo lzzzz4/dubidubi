@@ -1,4 +1,4 @@
-package cn.dubidubi.model;
+package cn.dubidubi.model.xml;
 
 import java.io.Serializable;
 

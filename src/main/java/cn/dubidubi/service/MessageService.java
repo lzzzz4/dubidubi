@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
-import cn.dubidubi.model.PushMessage;
+import cn.dubidubi.model.xml.PushMessage;
 
 public interface MessageService {
 

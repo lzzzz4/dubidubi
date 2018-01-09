@@ -46,13 +46,18 @@ public class LoginController extends BaseExceptionController {
 	private static final String defeatPath = "login";
 
 	/**
-	 * @Description: ajax方式访问url 404 认证错误 403 账户被锁定错误 500 无上传对象错误 200 成功
+	 * @Description: ajax方式访问url 
+	 * 404 认证错误 
+	 * 403 账户被锁定错误 
+	 * 500 无上传对象错误 
+	 * 200 成功
 	 * @return ajax返回值对象
+	 * @throws IOException 
 	 */
 	@RequestMapping(value = "/doLogin", headers = "X-Requested-With=XMLHttpRequest")
 	@ResponseBody
-	public AjaxResultDTO ajaxLogin(UserLoginDTO userLoginDTO, HttpServletRequest request)
-			throws AuthorizationException {
+	public AjaxResultDTO ajaxLogin(UserLoginDTO userLoginDTO, HttpServletRequest request,HttpServletResponse response)
+			throws AuthorizationException, IOException {
 		AjaxResultDTO ajaxResultDTO = new AjaxResultDTO();
 		Subject subject = SecurityUtils.getSubject();
 		if (StringUtils.isNotBlank(userLoginDTO.getAccount()) && StringUtils.isNotBlank(userLoginDTO.getPassword())) {
@@ -81,6 +86,8 @@ public class LoginController extends BaseExceptionController {
 		request.getSession().setAttribute("user", userDO);
 		// 设置状态为成功
 		ajaxResultDTO.setCode(200);
+		// 设置cookie
+		loginCookieService.addLoginCookie(userLoginDTO, response);
 		// 得到跳转前的url
 		SavedRequest savedRequest = WebUtils.getSavedRequest(request);
 		// 当savedrequest对象为空

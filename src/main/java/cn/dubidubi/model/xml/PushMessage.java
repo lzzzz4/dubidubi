@@ -1,12 +1,13 @@
-package cn.dubidubi.model;
+package cn.dubidubi.model.xml;
 
 import java.io.Serializable;
 
 import cn.dubidubi.util.XStreamCDATA;
+
 /**
- * 被动回复消息
  * @author 16224
- *
+ * @Description: 被动回复消息的xml对象
+ * @date 2018年1月9日 下午12:48:27
  */
 public class PushMessage implements Serializable {
 	private static final long serialVersionUID = 1L;
