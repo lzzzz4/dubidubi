@@ -1,7 +1,11 @@
-package cn.dubidubi.model;
+package cn.dubidubi.model.json;
 
 import java.io.Serializable;
-//一级按钮
+/**
+ * @author 16224
+ * @Description: 一级按钮
+ * @date 2018年1月10日 下午3:25:36
+ */
 public class WxButton implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String type;

@@ -13,7 +13,7 @@ public class WxAll implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String ToUserName;
 	private String FromUserName;
-	private String CreateTime;
+	private Long CreateTime;
 	private String MsgType;
 	private String Event;
 	private Double Latitude;
@@ -37,11 +37,11 @@ public class WxAll implements Serializable {
 		FromUserName = fromUserName;
 	}
 
-	public String getCreateTime() {
+	public Long getCreateTime() {
 		return CreateTime;
 	}
 
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Long createTime) {
 		CreateTime = createTime;
 	}
 

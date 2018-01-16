@@ -21,6 +21,11 @@ import cn.dubidubi.service.LocationService;
 import cn.dubidubi.service.MessageService;
 import cn.dubidubi.util.SerializeXmlUtil;
 
+/**
+ * @author 16224
+ * @Description: 接受微信响应接口
+ * @date 2018年1月9日 下午3:23:06
+ */
 @Controller
 @RequestMapping("/url")
 public class WxController {
@@ -29,7 +34,12 @@ public class WxController {
 	@Autowired
 	MessageService messageService;
 
-	// 校验接口是否通
+	/**
+	 * @Description:校验接口是否连通
+	 * @data :@param parameter
+	 * @data :@param response
+	 * @date :2018年1月16日下午8:19:47
+	 */
 	@RequestMapping(value = "/check", method = RequestMethod.GET)
 	public void urlCheck(WXUrlParameter parameter, HttpServletResponse response) {
 		System.out.println(parameter.getEchostr());
@@ -40,7 +50,13 @@ public class WxController {
 		}
 	}
 
-	// 通用接口,微信公众号的所有响应都会发至此
+	/**
+	 * @Description:通用接口，公众号xml信息都发送至此
+	 * @data :@param request
+	 * @data :@param response
+	 * @data :@return
+	 * @date :2018年1月16日下午8:19:17
+	 */
 	@RequestMapping(value = "/check", method = RequestMethod.POST, produces = "application/xml;charset=utf-8")
 	@ResponseBody
 	public String index(HttpServletRequest request, HttpServletResponse response) {
@@ -55,7 +71,7 @@ public class WxController {
 		XStream xs = SerializeXmlUtil.createXstream();
 		xs.processAnnotations(WxAll.class);
 		xs.alias("xml", WxAll.class);
-		WxAll content = (WxAll) xs.fromXML(xml);
+		final WxAll content = (WxAll) xs.fromXML(xml);
 		// 当种类为事件时
 		if ("event".equals(content.getMsgType())) {
 			// 当事件为地址时
@@ -66,7 +82,7 @@ public class WxController {
 			// 当事件为点击按钮时
 			if ("CLICK".equals(content.getEvent())) {
 				try {
-					rxml = messageService.pushMessage(locationService.getPushMessage(content));
+					rxml = messageService.getPushMessageXML(locationService.getPushMessage(content));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

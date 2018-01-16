@@ -24,7 +24,7 @@ public class MessageServiceImpl implements MessageService {
 	LocationService locationService;
 
 	@Override
-	public String pushMessage(PushMessage pushMessage) throws IOException {
+	public String getPushMessageXML(PushMessage pushMessage) throws IOException {
 		XStream xs = SerializeXmlUtil.createXstream();
 		xs.processAnnotations(PushMessage.class);
 		xs.alias("xml", PushMessage.class);

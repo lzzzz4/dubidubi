@@ -1,5 +1,9 @@
 package cn.dubidubi.model.dto;
-
+/**
+ * @author 16224
+ * @Description: 验证url接口的 get参数对象
+ * @date 2018年1月10日 下午3:26:31
+ */
 public class WXUrlParameter {
 	private String signature;
 	private String timestamp;

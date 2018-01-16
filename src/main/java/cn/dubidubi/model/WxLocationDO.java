@@ -18,7 +18,24 @@ public class WxLocationDO implements Serializable {
 
 	private String createTime;
 
+	private String address;
+	private String adcode;
 	private static final long serialVersionUID = 1L;
+	public String getAdcode() {
+		return adcode;
+	}
+
+	public void setAdcode(String adcode) {
+		this.adcode = adcode;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public Integer getId() {
 		return id;

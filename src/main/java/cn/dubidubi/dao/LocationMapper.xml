@@ -6,10 +6,12 @@
     <result column="from_user_name" property="fromUserName" jdbcType="VARCHAR" />
     <result column="Longitude" property="longitude" jdbcType="DOUBLE" />
     <result column="Latitude" property="latitude" jdbcType="DOUBLE" />
-    <result column="Create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="adcode" property="adcode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, from_user_name, Longitude, Latitude, Create_time
+    id, from_user_name, Longitude, Latitude, Create_time ,address ,adcode
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

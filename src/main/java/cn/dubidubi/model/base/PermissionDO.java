@@ -1,7 +1,11 @@
 package cn.dubidubi.model.base;
 
 import java.io.Serializable;
-
+/**
+ * @author 16224
+ * @Description: 权限对象
+ * @date 2018年1月10日 下午3:26:57
+ */
 public class PermissionDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;

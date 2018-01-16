@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.kevinsawicki.http.HttpRequest;
 
-import cn.dubidubi.model.WxButton;
-import cn.dubidubi.model.WxMenu;
+import cn.dubidubi.model.json.WxButton;
+import cn.dubidubi.model.json.WxMenu;
 import cn.dubidubi.service.WxBaseService;
 import cn.dubidubi.service.impl.WxBaseServiceImpl;
 

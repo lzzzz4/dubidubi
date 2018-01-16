@@ -1,7 +1,11 @@
 package cn.dubidubi.model.base;
 
 import java.io.Serializable;
-
+/**
+ * @author 16224
+ * @Description: 用户对象
+ * @date 2018年1月10日 下午3:27:09
+ */
 public class UserDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;

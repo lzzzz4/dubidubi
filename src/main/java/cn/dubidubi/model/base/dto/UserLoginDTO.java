@@ -1,7 +1,11 @@
 package cn.dubidubi.model.base.dto;
 
 import java.io.Serializable;
-
+/**
+ * @author 16224
+ * @Description: 登录信息接受 传输对象
+ * @date 2018年1月10日 下午3:28:19
+ */
 public class UserLoginDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String account;
