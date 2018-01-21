@@ -48,6 +48,7 @@ public class WxController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	/**
@@ -60,8 +61,8 @@ public class WxController {
 	@RequestMapping(value = "/check", method = RequestMethod.POST, produces = "application/xml;charset=utf-8")
 	@ResponseBody
 	public String index(HttpServletRequest request, HttpServletResponse response) {
-		String xml = null;
-		String rxml = "";
+		String xml = null; // 微信的xml
+		String rxml = "";// 响应的xml
 		try (ServletInputStream inputStream = request.getInputStream()) {
 			xml = IOUtils.toString(inputStream);
 		} catch (IOException e) {
@@ -81,10 +82,19 @@ public class WxController {
 			}
 			// 当事件为点击按钮时
 			if ("CLICK".equals(content.getEvent())) {
-				try {
-					rxml = messageService.getPushMessageXML(locationService.getPushMessage(content));
-				} catch (IOException e) {
-					e.printStackTrace();
+				switch (content.getEventKey()) {
+				case "weather":
+					try {
+						rxml = messageService.getPushMessageXML(locationService.getPushMessage(content));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					break;
+				case "news":
+					System.out.println("请求得到新闻!");
+					break;
+				default:
+					break;
 				}
 				return rxml;
 			}

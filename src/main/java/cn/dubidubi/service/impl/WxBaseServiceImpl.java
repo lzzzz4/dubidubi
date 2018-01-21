@@ -16,8 +16,8 @@ public class WxBaseServiceImpl implements WxBaseService {
 
 	private String getRealAccessToken() {
 		HttpRequest request = HttpRequest
-				.get("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="
-						+ WxProperties.getAppId() + "&secret=" + WxProperties.getAppsecret());
+				.get("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + WxProperties.APP_Id
+						+ "&secret=" + WxProperties.APP_SECRET);
 		request.trustAllCerts();
 		request.trustAllHosts();
 		String body = request.body();

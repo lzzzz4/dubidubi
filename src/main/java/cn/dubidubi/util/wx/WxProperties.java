@@ -12,16 +12,17 @@ import org.apache.commons.io.IOUtils;
  * @date 2018年1月11日 上午8:45:54
  */
 public class WxProperties {
-	private static String appId;
-	private static String appsecret;
+	public static String APP_Id;
+	public static String APP_SECRET;
 	static {
-		InputStream inputStream = WxProperties.class.getResourceAsStream("wx.properties");
+		InputStream inputStream = WxProperties.class.getClassLoader().getResourceAsStream("wx.properties");
 		Properties properties = new Properties();
 		try {
 			properties.load(inputStream);
-			appId = properties.getProperty("appId");
-			appsecret = properties.getProperty("appsecret");
+			APP_Id = properties.getProperty("appId");
+			APP_SECRET = properties.getProperty("appsecret");
 		} catch (IOException e) {
+			System.out.println("io异常");
 			e.printStackTrace();
 		} finally {
 			IOUtils.closeQuietly(inputStream);
@@ -29,13 +30,8 @@ public class WxProperties {
 
 	}
 
-	public static String getAppId() {
-		return appId;
+	public static void main(String[] args) {
+		System.out.println(WxProperties.APP_Id);
 	}
-
-	public static String getAppsecret() {
-		return appsecret;
-	}
-
 
 }

@@ -3,6 +3,7 @@ package cn.dubidubi.controller.base;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -13,6 +14,7 @@ import cn.dubidubi.model.base.dto.AjaxResultDTO;
  * @Description: 总异常处理 1000 授权错误
  * @date 2018年1月9日 上午11:48:25
  */
+@ControllerAdvice
 public class BaseExceptionController {
 	@ExceptionHandler(UnauthorizedException.class)
 	@ResponseBody
