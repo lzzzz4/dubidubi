@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.thoughtworks.xstream.XStream;
 
+import cn.dubidubi.model.NewsDO;
 import cn.dubidubi.model.WxLocationDO;
 import cn.dubidubi.model.xml.PushMessage;
 import cn.dubidubi.model.xml.WxAll;
+import cn.dubidubi.model.xml.WxImageAndTextMessage;
 import cn.dubidubi.service.LocationService;
 import cn.dubidubi.service.MessageService;
 import cn.dubidubi.util.SerializeXmlUtil;
@@ -29,6 +31,16 @@ public class MessageServiceImpl implements MessageService {
 		xs.processAnnotations(PushMessage.class);
 		xs.alias("xml", PushMessage.class);
 		String xml = xs.toXML(pushMessage);
+		System.out.println(xml);
+		return xml;
+	}
+
+	@Override
+	public String getPushMessageXML(WxImageAndTextMessage newsDo) throws IOException {
+		XStream xs = SerializeXmlUtil.createXstream();
+		xs.processAnnotations(WxImageAndTextMessage.class);
+		xs.alias("xml", WxImageAndTextMessage.class);
+		String xml = xs.toXML(newsDo);
 		System.out.println(xml);
 		return xml;
 	}

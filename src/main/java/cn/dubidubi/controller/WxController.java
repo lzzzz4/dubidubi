@@ -20,6 +20,7 @@ import cn.dubidubi.model.dto.WXUrlParameter;
 import cn.dubidubi.model.xml.WxAll;
 import cn.dubidubi.service.LocationService;
 import cn.dubidubi.service.MessageService;
+import cn.dubidubi.service.NewsPyService;
 import cn.dubidubi.util.SerializeXmlUtil;
 
 /**
@@ -34,6 +35,8 @@ public class WxController {
 	LocationService locationService;
 	@Autowired
 	MessageService messageService;
+	@Autowired
+	NewsPyService newsPyService;
 
 	/**
 	 * @Description:校验接口是否连通
@@ -61,7 +64,7 @@ public class WxController {
 	 */
 	@RequestMapping(value = "/check", method = RequestMethod.POST, produces = "application/xml;charset=utf-8")
 	@ResponseBody
-	public String index(HttpServletRequest request, HttpServletResponse response) {
+	public String index(final HttpServletRequest request, final HttpServletResponse response) {
 		String xml = null; // 微信的xml
 		String rxml = "";// 响应的xml
 		try (ServletInputStream inputStream = request.getInputStream()) {
@@ -73,6 +76,7 @@ public class WxController {
 		XStream xs = SerializeXmlUtil.createXstream();
 		xs.processAnnotations(WxAll.class);
 		xs.alias("xml", WxAll.class);
+		// 得到微信推送的xml对象
 		final WxAll content = (WxAll) xs.fromXML(xml);
 		// 当种类为事件时
 		if ("event".equals(content.getMsgType())) {
@@ -92,7 +96,13 @@ public class WxController {
 					}
 					break;
 				case "news":
-					System.out.println("请求得到新闻!");
+					try {
+						rxml = messageService.getPushMessageXML(newsPyService.getPushNews(content));
+						LoggerFactory.getLogger(this.getClass()).info("发送新闻信息");
+					} catch (IOException e) {
+						LoggerFactory.getLogger(this.getClass()).warn("news controller错误");
+						e.printStackTrace();
+					}
 					break;
 				default:
 					break;

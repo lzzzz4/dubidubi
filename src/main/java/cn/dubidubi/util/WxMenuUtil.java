@@ -17,7 +17,11 @@ import cn.dubidubi.service.impl.WxBaseServiceImpl;
  * @date 2018年1月21日 下午7:48:22
  */
 public class WxMenuUtil {
-	// 用于自定义菜单
+	/**
+	 * @Description: 自定义菜单按钮
+	 * @data :@param args
+	 * @date :2018年3月6日下午1:44:50
+	 */
 	public static void main(String[] args) {
 		// 天气按钮
 		WxButton wxButton = new WxButton();
@@ -41,7 +45,6 @@ public class WxMenuUtil {
 		request.trustAllCerts();
 		request.trustAllHosts();
 		String json = JSON.toJSONString(wxMenu);
-		System.out.println(json);
 		request.send(json);
 		String body = request.body();
 		System.out.println(body);
