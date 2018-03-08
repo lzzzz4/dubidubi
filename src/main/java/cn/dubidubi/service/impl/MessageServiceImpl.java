@@ -19,7 +19,11 @@ import cn.dubidubi.model.xml.WxImageAndTextMessage;
 import cn.dubidubi.service.LocationService;
 import cn.dubidubi.service.MessageService;
 import cn.dubidubi.util.SerializeXmlUtil;
-
+/**
+ * @author linzj
+ * @Description:将消息对象转化为xml
+ * @date 2018年3月8日 下午7:49:12
+ */
 @Service
 public class MessageServiceImpl implements MessageService {
 	@Autowired
