@@ -54,8 +54,8 @@ for div in divs:
         finpath = path + "/" + imghref[10:20] + str(uuid.uuid1())[0:15] + ".jpg"
         open(finpath, "wb").write(img_resp.content)
         img_url = finpath.find("/news")
-        cursor.execute('insert news_info(title,create_time,img_url,original_web_url,source) values(%s,%s,%s,%s,%s)',
-                       (title[0].text, currentTime, preUrl + finpath[img_url:], ahref, newsSource))
+        cursor.execute('insert news_info(title,create_time,img_url,original_web_url,source,source_id) values(%s,%s,%s,%s,%s,%s)',
+                       (title[0].text, currentTime, preUrl + finpath[img_url:], ahref, newsSource, 100))
 conn.commit()
 cursor.close()
 conn.close()

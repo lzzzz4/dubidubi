@@ -49,7 +49,7 @@
 			enableUpdateByExample:Update语句中加入where条件查询，默认为true开启 enableDeleteByExample:Delete语句中加入where条件查询，默认为true开启 
 			enableSelectByExample:Select多条语句中加入where条件查询，默认为true开启 selectByExampleQueryId:Select单个对象语句中加入where条件查询，默认为true开启 
 			%表示全部表都生成 -->
-		<table schema="root" tableName="news_info" domainObjectName="NewsDO" enableCountByExample="false"
+		<table schema="root" tableName="hi_news_info" domainObjectName="HistoryNews" enableCountByExample="false"
 			enableDeleteByExample="false" enableDeleteByPrimaryKey="false"
 			enableInsert="false" enableSelectByExample="false"
 			enableUpdateByExample="false" enableUpdateByPrimaryKey="false"></table>

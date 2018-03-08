@@ -27,8 +27,9 @@ public class WxBaseServiceImpl implements WxBaseService {
 	}
 
 	// 定时请求获得accessToken 每10分钟执行一次
+	// cron表达式,在指定每一段时间执行一次后,需要将小的单位指定好,例如现在是在整个分钟内都可以执行
 	@Override
-	@Scheduled(cron = "* */10 * * * ?")
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void anyHourGetAccessToken() {
 		accessToken = getRealAccessToken();
 	}

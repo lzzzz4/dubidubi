@@ -6,25 +6,22 @@ import java.util.Date;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-import cn.dubidubi.util.XStreamCDATA;
-
 @XStreamAlias("item")
 public class NewsDO implements Serializable {
 	@XStreamOmitField
 	private Integer id;
-
-	@XStreamCDATA
-	private String Title;
+	@XStreamAlias("Title")
+	private String title;
 	@XStreamOmitField
-	private String createTime;
-	// 源
-	@XStreamCDATA
-	private String Description;
-	@XStreamCDATA
-	private String PicUrl;
-	// 源网页
-	@XStreamCDATA
-	private String Url;
+	private Date createTime;
+	@XStreamAlias("PicUrl")
+	private String imgUrl;
+	@XStreamAlias("Url")
+	private String originalWebUrl;
+	@XStreamAlias("Description")
+	private String source;
+	@XStreamOmitField
+	private Integer sourceId;
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,35 +34,50 @@ public class NewsDO implements Serializable {
 	}
 
 	public String getTitle() {
-		return Title;
+		return title;
 	}
 
 	public void setTitle(String title) {
-		Title = title;
+		this.title = title == null ? null : title.trim();
 	}
 
-	public String getDescription() {
-		return Description;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setDescription(String description) {
-		Description = description;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
-	public String getPicUrl() {
-		return PicUrl;
+	public String getImgUrl() {
+		return imgUrl;
 	}
 
-	public void setPicUrl(String picUrl) {
-		PicUrl = picUrl;
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl == null ? null : imgUrl.trim();
 	}
 
-	public String getUrl() {
-		return Url;
+	public String getOriginalWebUrl() {
+		return originalWebUrl;
 	}
 
-	public void setUrl(String url) {
-		Url = url;
+	public void setOriginalWebUrl(String originalWebUrl) {
+		this.originalWebUrl = originalWebUrl == null ? null : originalWebUrl.trim();
 	}
 
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source == null ? null : source.trim();
+	}
+
+	public Integer getSourceId() {
+		return sourceId;
+	}
+
+	public void setSourceId(Integer sourceId) {
+		this.sourceId = sourceId;
+	}
 }

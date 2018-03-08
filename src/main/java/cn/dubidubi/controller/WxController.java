@@ -1,6 +1,7 @@
 package cn.dubidubi.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -95,10 +96,19 @@ public class WxController {
 						e1.printStackTrace();
 					}
 					break;
-				case "news":
+				case "100":
 					try {
-						rxml = messageService.getPushMessageXML(newsPyService.getPushNews(content));
-						LoggerFactory.getLogger(this.getClass()).info("发送新闻信息");
+						rxml = messageService.getPushMessageXML(newsPyService.getPushNews(content, 100));
+						LoggerFactory.getLogger(this.getClass()).info("发送澎湃新闻信息");
+					} catch (IOException e) {
+						LoggerFactory.getLogger(this.getClass()).warn("news controller错误");
+						e.printStackTrace();
+					}
+					break;
+				case "101":
+					try {
+						rxml = messageService.getPushMessageXML(newsPyService.getPushNews(content, 101));
+						LoggerFactory.getLogger(this.getClass()).info("发送腾讯新闻信息");
 					} catch (IOException e) {
 						LoggerFactory.getLogger(this.getClass()).warn("news controller错误");
 						e.printStackTrace();

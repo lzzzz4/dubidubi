@@ -1,22 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.dubidubi.dao.NewsDOMapper">
 	<resultMap id="BaseResultMap" type="cn.dubidubi.model.NewsDO">
-		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="title" property="Title" jdbcType="VARCHAR" />
-		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
-		<result column="img_url" property="PicUrl" jdbcType="VARCHAR" />
-		<result column="original_web_url" property="Url" jdbcType="VARCHAR" />
-		<result column="source" property="Description" jdbcType="VARCHAR" />
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+		<result column="original_web_url" jdbcType="VARCHAR" property="originalWebUrl" />
+		<result column="source" jdbcType="VARCHAR" property="source" />
+		<result column="source_id" jdbcType="INTEGER" property="sourceId" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, title, create_time, img_url, original_web_url ,source
+		id, title, create_time, img_url, original_web_url, source,
+		source_id
 	</sql>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.Integer">
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from news_info
 		where id = #{id,jdbcType=INTEGER}
 	</select>
+	<!-- 依据时间查询符合条件的新闻 -->
+	<select id="listByTime" parameterType="cn.dubidubi.model.dto.NewsDTO"
+		resultMap="BaseResultMap">
+		SELECT title,img_url,original_web_url,source,create_time
+		FROM news_info WHERE source_id =#{code} AND create_time BETWEEN
+		#{startTime} AND #{endTime}
+		LIMIT #{userFlag},#{amount}
+	</select>
+
+	<!-- 依据时间删除符合条件的新闻 -->
+	<delete id="deleteByTime" parameterType="cn.dubidubi.model.dto.NewsDTO">
+		DELETE FROM news_info
+		WHERE create_time BETWEEN #{startTime} AND #{endTime}
+	</delete>
 </mapper>

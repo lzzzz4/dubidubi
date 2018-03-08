@@ -31,8 +31,20 @@ public class WxMenuUtil {
 		// 新闻按钮
 		WxButton news = new WxButton();
 		news.setName("新闻");
-		news.setType("click");
-		news.setKey("news");
+		WxButton[] news_sub = new WxButton[2];
+		// 澎湃子按钮
+		WxButton pengpai = new WxButton();
+		pengpai.setName("澎湃");
+		pengpai.setType("click");
+		pengpai.setKey("100");
+		news_sub[0] = pengpai;
+		// 腾讯子按钮
+		WxButton tencent_news = new WxButton();
+		tencent_news.setName("腾讯");
+		tencent_news.setType("click");
+		tencent_news.setKey("101");
+		news_sub[1] = tencent_news;
+		news.setSub_button(news_sub);
 		WxButton[] button = new WxButton[2];
 		button[0] = wxButton; // 将天气加入数组
 		button[1] = news; // 将新闻加入数组
@@ -40,11 +52,13 @@ public class WxMenuUtil {
 		wxMenu.setButton(button);
 		WxBaseService wxBaseService = new WxBaseServiceImpl();
 		String access_Token = wxBaseService.getAccessToken();
+		System.out.println(access_Token);
 		HttpRequest request = HttpRequest
 				.post("https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + access_Token);
 		request.trustAllCerts();
 		request.trustAllHosts();
 		String json = JSON.toJSONString(wxMenu);
+		System.out.println(json);
 		request.send(json);
 		String body = request.body();
 		System.out.println(body);
