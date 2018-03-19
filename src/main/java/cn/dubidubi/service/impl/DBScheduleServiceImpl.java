@@ -21,6 +21,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import cn.dubidubi.service.DBScheduleService;
 import cn.dubidubi.service.HistoryNewsService;
 import cn.dubidubi.service.NewsPyService;
+import cn.dubidubi.util.wx.WxProperties;
 
 /**
  * @author linzj
@@ -29,7 +30,7 @@ import cn.dubidubi.service.NewsPyService;
  */
 @Service
 public class DBScheduleServiceImpl implements DBScheduleService {
-	private static String sqlStorePath = "H:/";
+	private static String sqlStorePath = WxProperties.Sql_Store_Path;
 	@Autowired
 	private NewsPyService newsPyService;
 	@Autowired
@@ -56,7 +57,8 @@ public class DBScheduleServiceImpl implements DBScheduleService {
 	 * @date: 2018年3月8日下午2:32:17
 	 */
 	@Override
-	@Scheduled(cron = "* * 2/10 * * ?")
+	@Scheduled(cron = "0 0 2/10 * * ?")
+	// @Scheduled(cron = "0/30 * * * * ?")
 	public void backUpDB() {
 		// bin/sh -c
 		String Date = LocalDate.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
@@ -66,7 +68,8 @@ public class DBScheduleServiceImpl implements DBScheduleService {
 			e1.printStackTrace();
 		}
 		// window下
-		String cmd = "cmd /c -c mysqldump -uroot -pLinzijie123!! --databases gzh > " + sqlStorePath + Date + "/sb.sql";
+		String cmd = "cmd /c mysqldump -h119.29.28.81 -uroot -pLinzijie123!! --databases gzh > " + sqlStorePath + Date
+				+ "/sb.sql";
 		// linux下调用shell脚本
 		// String cmd = "";
 		try {
@@ -92,7 +95,8 @@ public class DBScheduleServiceImpl implements DBScheduleService {
 			e1.printStackTrace();
 		}
 		// bin/sh -c
-		String cmd = "cmd /c mysqldump -h119.29.28.81 -uroot -pLinzijie123!! --databases gzh > H:/sb.sql";
+		String cmd = "cmd /c mysqldump -h119.29.28.81 -uroot -pLinzijie123!! --databases gzh > " + sqlStorePath + Date
+				+ "/sb.sql";
 
 		try {
 			System.out.println("开始备份1" + sqlStorePath + Date);

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title>图片站</title>
+<link href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css"
+	rel="stylesheet">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"
+	type="text/javascript" charset="utf-8"></script>
+<script
+	src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
+</head>
+
+<body>
+	<div class="page__hd">
+		<h2 class="page__title">说明</h2>
+		<p class="page__desc">
+			百度源在页面上展示 九妹源选择发送时间后,将在指定时间(<strong style="color: red;">可能会有延迟</strong>)会将图片发送至邮箱,若无绑定,在生活中点击绑定
+		</p>
+	</div>
+	<!--选择下拉条 -->
+	<form id="myform">
+		<div class="weui-cells">
+			<div class="weui-cell weui-cell_select weui-cell_select-after">
+				<div class="weui-cell__hd">
+					<label for="" class="weui-label">图片源</label>
+				</div>
+				<div class="weui-cell__bd">
+					<select class="weui-select" name="source" id="source">
+						<option selected="selected" value="1">百度源</option>
+						<option value="2">九妹源</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<!--
+        	作者：1622472966@qq.com
+        	时间：2018-03-14
+        	描述：表单
+        -->
+		<div class="weui-cells weui-cells_form">
+			<div class="weui-cell">
+				<div class="weui-cell__hd">
+					<label class="weui-label">输入关键词</label>
+				</div>
+				<div class="weui-cell__bd">
+					<input class="weui-input" name="key" id="key" placeholder="请输入关键词">
+				</div>
+			</div>
+			<div class="weui-cell">
+				<div class="weui-cell__hd">
+					<label class="weui-label">图片数</label>
+				</div>
+				<div class="weui-cell__bd">
+					<input class="weui-input" name="amount" id="amount" type="number"
+						pattern="[0-9]" placeholder="不能超过8张">
+				</div>
+			</div>
+			<div class="weui-cell">
+				<div class="weui-cell__hd">
+					<label class="weui-label">宽</label>
+				</div>
+				<div class="weui-cell__bd">
+					<input class="weui-input" name="amount" id="amount" type="number"
+						pattern="[0-9]" placeholder="仅对百度源有效">
+				</div>
+			</div>
+			<div class="weui-cell">
+				<div class="weui-cell__hd">
+					<label class="weui-label">高</label>
+				</div>
+				<div class="weui-cell__bd">
+					<input class="weui-input" name="amount" id="amount" type="number"
+						pattern="[0-9]" placeholder="仅对百度源有效">
+				</div>
+			</div>
+			<div class="weui-cell">
+				<div class="weui-cell__hd">
+					<label for="" class="weui-label">接收时间</label>
+				</div>
+				<div class="weui-cell__bd">
+					<input class="weui-input" name="time" id="time"
+						type="datetime-local" value="" placeholder="">
+				</div>
+			</div>
+		</div>
+		<!--上传图片-->
+		<div class="page__bd">
+			<div class="weui-gallery" id="gallery">
+				<span class="weui-gallery__img" id="galleryImg"></span>
+				<div class="weui-gallery__opr">
+					<a href="javascript:" class="weui-gallery__del"> <i
+						class="weui-icon-delete weui-icon_gallery-delete"></i>
+					</a>
+				</div>
+			</div>
+			<!--图片上传表单-->
+			<div class="weui-cells weui-cells_form">
+				<div class="weui-cell">
+					<div class="weui-cell__bd">
+						<div class="weui-uploader">
+							<div class="weui-uploader__hd">
+								<p class="weui-uploader__title">
+									以图识图 <strong>*说明,选择以图识图后将在页面上展示结果，而不是发送邮件</strong>
+								</p>
+								<div class="weui-uploader__info" id="total">0/1</div>
+							</div>
+							<div class="weui-uploader__bd">
+								<ul class="weui-uploader__files" id="uploaderFiles">
+									<!--上传图片展示-->
+								</ul>
+								<div class="weui-uploader__input-box">
+									<input id="uploaderInput" class="weui-uploader__input"
+										type="file" accept="image/*" id="pic" multiple="">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</form>
+	<!--
+            	作者：1622472966@qq.com
+            	时间：2018-03-14
+            	描述：确认按钮
+            -->
+	<div class="weui-btn-area">
+		<a class="weui-btn weui-btn_primary" href="javascript:"
+			id="showTooltips">确定</a>
+	</div>
+	</div>
+</body>
+<!--
+    	作者：1622472966@qq.com
+    	时间：2018-03-14
+    	描述：weui上传文件及weui的gallery插件删除图片
+    -->
+<script src="https://cdn.bootcss.com/jquery.form/4.2.2/jquery.form.js"></script>
+<script class="uploader js_show">
+	var temp;
+	$(function() {
+		var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>', $gallery = $("#gallery"), $galleryImg = $("#galleryImg"), $uploaderInput = $("#uploaderInput"), $uploaderFiles = $("#uploaderFiles");
+		$uploaderInput.on("change",
+				function(e) {
+					var src, url = window.URL || window.webkitURL
+							|| window.mozURL, files = e.target.files;
+					//对总数设置限制,file[0]即为第一个文件
+					$("#total").html("1/1")
+					$("div.weui-uploader__input-box").hide();
+					temp = files
+					for (var i = 0, len = files.length; i < len; ++i) {
+						var file = files[i];
+						if (url) {
+							src = url.createObjectURL(file);
+						} else {
+							src = e.target.result;
+						}
+						$uploaderFiles.append($(tmpl.replace('#url#', src)));
+					}
+				});
+		$uploaderFiles.on("click", "li", function() {
+			$galleryImg.attr("style", this.getAttribute("style"));
+			$gallery.fadeIn(100);
+		});
+		$gallery.on("click", function() {
+			$gallery.fadeOut(100);
+		});
+		//删除图片
+		$(".weui-gallery__del").click(function() {
+			$uploaderFiles.find("li").eq(0).remove();
+			$("div.weui-uploader__input-box").show();
+			$("#total").html("0/1")
+		});
+	});
+
+	$(function() {
+		$("#showTooltips").click(function() {
+			$(this).addClass("weui-btn_loading")
+			form = new FormData()
+			form.append("key", $("#key").val())
+			form.append("source", $("#source").val())
+			form.append("time", $("#time").val())
+			form.append("amount", $("#amount").val())
+			//$(this).removeClass()
+			$(this).text("正在载入中")
+			$(this).append("<i class='weui-loading'></i>")
+			if (temp != null)
+				form.append("file", temp[0])
+			$.ajax({
+				url : 'http://dubidubi.iask.in/repoter/pic/key.do',
+				type : 'POST',
+				data : form,
+				async : true,
+				cache : false,
+				contentType : false, //不设置内容类型  
+				processData : false, //不处理数据  
+				success : function(data) {
+					if (data.code == 9) {
+						data =JSON.parse(data)
+						window.location.href = "http://dubidubi.iask.in/repoter"+data.url
+					} else {
+						data =JSON.parse(data)
+						window.location.href = "http://dubidubi.iask.in/repoter"+data.url
+					}
+				},
+				error : function() {
+					alert("上传失败！");
+				}
+			})
+
+		})
+	})
+</script>
+
+</html>

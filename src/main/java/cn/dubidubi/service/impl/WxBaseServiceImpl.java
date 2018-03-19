@@ -1,5 +1,6 @@
 package cn.dubidubi.service.impl;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class WxBaseServiceImpl implements WxBaseService {
 	@Scheduled(cron = "0 0/10 * * * ?")
 	public void anyHourGetAccessToken() {
 		accessToken = getRealAccessToken();
+		LoggerFactory.getLogger(this.getClass()).info("得到accessToken码");
 	}
 
 	@Override
@@ -40,6 +42,24 @@ public class WxBaseServiceImpl implements WxBaseService {
 			accessToken = getRealAccessToken();
 		}
 		return accessToken;
+	}
+
+	@Override
+	public String codeToAccessToken(String code) {
+		String wxUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WxProperties.APP_Id + "&secret="
+				+ WxProperties.APP_SECRET + "&code=" + code + "&grant_type=authorization_code";
+		HttpRequest httpRequest = HttpRequest.get(wxUrl);
+		httpRequest.trustAllCerts();
+		httpRequest.trustAllHosts();
+		String json = httpRequest.body();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject = JSON.parseObject(json);
+		// 拉取信息
+		String getInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token="
+				+ jsonObject.getString("access_token") + "&openid=" + jsonObject.getString("openid") + "&lang=zh_CN";
+		HttpRequest info = HttpRequest.get(getInfoUrl);
+		String userInfo = info.body();
+		return userInfo;
 	}
 
 }

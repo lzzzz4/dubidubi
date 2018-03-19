@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title>请输入邮箱</title>
+<link href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css"
+	rel="stylesheet">
+</head>
+
+<body style="background-color: #FFFACD">
+	<div class="weui-cells weui-cells_form"
+		style="position: absolute; bottom: 25%; background-color: #FFFACD;">
+		<div class="weui-cell weui-cell_vcode">
+			<div class="weui-cell__hd">
+				<label class="weui-label">邮箱</label>
+			</div>
+			<div class="weui-cell__bd">
+				<input class="weui-input" id="mail" type="tel" placeholder="请输入邮箱">
+			</div>
+			<div class="weui-cell__ft">
+				<button id="btn" class="weui-vcode-btn">获取验证码</button>
+			</div>
+		</div>
+		<div class="weui-cell">
+			<div class="weui-cell__hd">
+				<label class="weui-label">验证码</label>
+			</div>
+			<div class="weui-cell__bd">
+				<input class="weui-input" type="number" pattern="[0-9]*"
+					placeholder="请输入验证码" id="codeNumber">
+			</div>
+		</div>
+		<label for="weuiAgree" class="weui-agree"> <input
+			id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
+			<span class="weui-agree__text"> 阅读并同意<a
+				href="javascript:void(0);">《相关条款》</a>
+		</span>
+		</label>
+		<div class="weui-btn-area">
+			<a class="weui-btn weui-btn_primary" href="javascript:"
+				id="showTooltips">确定</a>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script>
+	var countdown = 60;
+	var result
+	$(function() {
+		$("#btn").click(
+				function() {
+					if ($("#mail").val().trim() == ""
+							|| $("#mail").val().indexOf("@") <= 0) {
+						alert("请确认邮箱")
+						return 0;
+					}
+					$("#btn").attr("disabled", "disabled")
+					$.post("http://dubidubi.iask.in/repoter/mail/mailConfirm.do",{mail:$("#mail").val()},function(data){
+							result =data.result;
+					},"json")
+					$("#btn").text("剩余" + countdown + "秒再次发送");
+					//定时任务 每1s执行一次
+					var flag = setInterval(function() {
+						countdown--;
+						$("#btn").text("剩余" + countdown + "秒再次发送");
+						if (countdown == 0) {
+							clearInterval(flag)
+							$("#btn").text("发送验证码");
+							$("#btn").removeAttr("disabled");
+							countdown = 60;
+						}
+					}, 1000)
+				})
+	})
+
+	$(function() {
+		$("#showTooltips").click(function() {
+			if($("#codeNumber").val().trim()!=""){
+				if($("#codeNumber").val()==result){
+					$.post("http://dubidubi.iask.in/repoter/mail/addMail.do",{mail:$("#mail").val()},function(data){
+						if(data.result==200){
+							window.location.href="/repoter/suc.html";
+						}
+				},"json")
+				}else{
+					alert("验证码错误!")
+				}
+			}else{
+				alert("验证码错误!")
+			}
+		})
+	})
+</script>
+
+</html>

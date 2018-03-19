@@ -113,27 +113,6 @@ public class NewsPyServiceImpl implements NewsPyService {
 		return wxImageAndTextMessage;
 	}
 
-	public static void main(String[] args) {
-		// 得到起始时间
-		// LocalDateTime startDateTime =
-		// LocalDateTime.now().withMinute(0).withSecond(0);
-		// String startTime =
-		// startDateTime.format(DateTimeFormatter.ofPattern("YYYY-MM-dd
-		// HH:mm:ss"));
-		//
-		// // 得到尾巴时间
-		// LocalDateTime endDateTime =
-		// LocalDateTime.now().withMinute(59).withSecond(59);
-		// String endTime =
-		// endDateTime.format(DateTimeFormatter.ofPattern("YYYY-MM-dd
-		// HH:mm:ss"));
-		// System.out.println(startTime + "---->" + endTime);
-
-		// 随机数范围 左闭右开
-		LocalDateTime dateTime = LocalDateTime.of(2018, 1, 2, 0, 0, 0);
-		System.out.println(dateTime.minusDays(1));
-	}
-
 	@Override
 	/**
 	 * @Description: 删除昨日的新闻
@@ -175,6 +154,27 @@ public class NewsPyServiceImpl implements NewsPyService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public static void main(String[] args) {
+		// 得到起始时间
+		// LocalDateTime startDateTime =
+		// LocalDateTime.now().withMinute(0).withSecond(0);
+		// String startTime =
+		// startDateTime.format(DateTimeFormatter.ofPattern("YYYY-MM-dd
+		// HH:mm:ss"));
+		//
+		// // 得到尾巴时间
+		// LocalDateTime endDateTime =
+		// LocalDateTime.now().withMinute(59).withSecond(59);
+		// String endTime =
+		// endDateTime.format(DateTimeFormatter.ofPattern("YYYY-MM-dd
+		// HH:mm:ss"));
+		// System.out.println(startTime + "---->" + endTime);
+
+		// 随机数范围 左闭右开
+		LocalDateTime dateTime = LocalDateTime.of(2018, 1, 2, 0, 0, 0);
+		System.out.println(dateTime.minusDays(1));
 	}
 
 }

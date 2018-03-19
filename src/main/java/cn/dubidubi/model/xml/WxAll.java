@@ -3,8 +3,10 @@ package cn.dubidubi.model.xml;
 import java.io.Serializable;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 /**
  * 全部的微信xml对象
+ * 
  * @author 16224
  *
  */
@@ -20,6 +22,15 @@ public class WxAll implements Serializable {
 	private Double Longitude;
 	private Double Precision;
 	private String EventKey;
+	private String MenuId;
+
+	public String getMenuId() {
+		return MenuId;
+	}
+
+	public void setMenuId(String menuId) {
+		MenuId = menuId;
+	}
 
 	public String getToUserName() {
 		return ToUserName;

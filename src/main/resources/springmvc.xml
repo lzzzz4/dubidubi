@@ -40,11 +40,9 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	<!-- jsp视图解析器 配置返回的前缀后缀 -->
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/jsp/"></property>
-		<property name="suffix" value=".jsp"></property>
-	</bean>
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="prefix" value="/WEB-INF/jsp/"></property> <property name="suffix" 
+		value=".jsp"></property> </bean> -->
 	<!-- 异常处理器 需更改 开启取消注释 -->
 	<!-- <bean class="cn.dubidubi.ssm.web.exception.handle.Test1"></bean> -->
 	<!-- 开启aop -->
@@ -64,7 +62,7 @@
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-				<prop key="org.apache.shiro.authz.UnauthorizedException"> 
+				<prop key="org.apache.shiro.authz.UnauthorizedException">
 					refuse
 				</prop>
 			</props>
