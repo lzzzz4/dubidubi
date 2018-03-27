@@ -29,10 +29,21 @@ import cn.dubidubi.model.xml.WxAll;
 import cn.dubidubi.model.xml.WxImageAndTextMessage;
 import cn.dubidubi.service.NewsPyService;
 
+/**
+ * @author linzj
+ * @Description: 爬取新闻
+ * @date 2018年3月24日 下午12:56:16
+ */
 @Service
 public class NewsPyServiceImpl implements NewsPyService {
 	@Autowired
 	NewsDOMapper newsDOMapper;
+	String path;
+	static {
+		String path = NewsPyServiceImpl.class.getResource("/").getPath();
+		int end = path.indexOf("WEB-INF");
+		path = path.substring(1, end) + "news/";
+	}
 
 	/**
 	 * @Description: 定时调用py澎湃代码,获取资源
@@ -50,7 +61,7 @@ public class NewsPyServiceImpl implements NewsPyService {
 		String path = this.getClass().getResource("/").getPath();
 		int end = path.indexOf("WEB-INF");
 		path = path.substring(1, end);
-		System.out.println("web路径为" + path);
+		// System.out.println("web路径为" + path);
 		URL url = this.getClass().getClassLoader().getResource("py/newsSpider.py");
 		String pypath = url.getPath().substring(1);
 		// System.out.println(pypath);
@@ -119,7 +130,9 @@ public class NewsPyServiceImpl implements NewsPyService {
 	 * @data:
 	 * @date: 2018年3月7日下午9:55:34
 	 */
+	@Scheduled(cron = "0 0 0 * * ?")
 	public void deleteNewsByTime() {
+		// 删除数据库中的新闻
 		// LocalDateTime第二天0点执行
 		String yesterdayBegin = LocalDateTime.now().minusDays(1)
 				.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));

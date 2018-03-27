@@ -1,6 +1,10 @@
 package cn.dubidubi.controller;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.dubidubi.dao.MailInfoMapper;
 import cn.dubidubi.model.base.dto.AjaxResultDTO;
 import cn.dubidubi.model.dto.GetPicDTO;
+import cn.dubidubi.model.dto.PicUrlToBase64DTO;
 import cn.dubidubi.model.dto.WxInfoDTO;
 import cn.dubidubi.service.PyBeautifulGirlService;
 import cn.dubidubi.service.WxBaseService;
@@ -37,18 +44,40 @@ public class GetPicByKeyController {
 	WxBaseService wxBaseService;
 	@Autowired
 	PyBeautifulGirlService pyBeautifuGirlSerivce;
+	@Autowired
+	MailInfoMapper mailInfoMapper;
 
+	/**
+	 * @throws IOException
+	 * @throws ExecutionException
+	 * @throws InterruptedException
+	 * @Description: 界面输入关键词,执行爬虫,异步将内容发送至用户的邮箱
+	 * @data :@param getPicDTO
+	 * @data :@param file
+	 * @data :@param request
+	 * @data :@return
+	 * @date :2018年3月20日下午12:55:12
+	 */
 	@RequestMapping("/key")
 	@ResponseBody
 	public AjaxResultDTO key(GetPicDTO getPicDTO, @RequestParam(required = false) MultipartFile file,
-			HttpServletRequest request) {
+			HttpServletRequest request) throws InterruptedException, ExecutionException, IOException {
 		AjaxResultDTO resultDTO = new AjaxResultDTO();
+		WxInfoDTO wxInfoDTO = (WxInfoDTO) request.getSession().getAttribute("user");
+		if (mailInfoMapper.listMailByOpenid(wxInfoDTO.getOpenid()) == null
+				|| mailInfoMapper.listMailByOpenid(wxInfoDTO.getOpenid()).size() == 0) {
+			resultDTO.setCode(500);
+		}
+
 		// 当为九妹源时
 		if ("2".equals(getPicDTO.getSource())) {
 			System.out.println("九妹源");
-			pyBeautifuGirlSerivce.startPy(getPicDTO.getKey());
+
+			resultDTO.setUid(wxInfoDTO.getOpenid());
+			Future<PicUrlToBase64DTO> list = pyBeautifuGirlSerivce.startPy(getPicDTO.getKey(), wxInfoDTO.getOpenid(),
+					getPicDTO.getTime());
+			pyBeautifuGirlSerivce.waitForComplete(list);
 			resultDTO.setCode(9);
-			resultDTO.setUrl("/index.html");
 		} else {
 			System.out.println("百度源");
 			int pn = RandomUtils.nextInt(0, 10) * getPicDTO.getAmount();
@@ -60,6 +89,14 @@ public class GetPicByKeyController {
 		return resultDTO;
 	}
 
+	/**
+	 * @Description: 拉取微信的授权
+	 * @data :@param code
+	 * @data :@param state
+	 * @data :@param request
+	 * @data :@return
+	 * @date :2018年3月20日下午1:03:34
+	 */
 	@RequestMapping("/access")
 	public String assess(String code, String state, HttpServletRequest request) {
 		String json = wxBaseService.codeToAccessToken(code);
@@ -75,4 +112,9 @@ public class GetPicByKeyController {
 		// System.out.println(wxInfoDTO);
 		return "redirect:/pic.html";
 	}
+
+	// public AjaxResultDTO isDownloadPicFinish() {
+	// AjaxResultDTO dto = new AjaxResultDTO();
+	// }
+
 }

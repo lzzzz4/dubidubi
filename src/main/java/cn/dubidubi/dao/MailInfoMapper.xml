@@ -29,4 +29,8 @@
 	<select id="getIdByMail" parameterType="String" resultType="int">
 		select id from mail_info where mail=#{v}
 	</select>
+
+	<select id="listMailByOpenid" parameterType="String" resultType="String">
+		select mail from mail_info where open_id=#{v}
+	</select>
 </mapper>

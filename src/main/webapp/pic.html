@@ -199,19 +199,20 @@
 				contentType : false, //不设置内容类型  
 				processData : false, //不处理数据  
 				success : function(data) {
+					data =JSON.parse(data)
 					if (data.code == 9) {
-						data =JSON.parse(data)
+						alert("将在指定时间发送至邮箱！")
+					} else if(data.code==200){
 						window.location.href = "http://dubidubi.iask.in/repoter"+data.url
-					} else {
-						data =JSON.parse(data)
-						window.location.href = "http://dubidubi.iask.in/repoter"+data.url
+					}else if(data.code==500){
+						alert("请绑定邮箱!");
 					}
 				},
 				error : function() {
 					alert("上传失败！");
 				}
 			})
-
+			
 		})
 	})
 </script>

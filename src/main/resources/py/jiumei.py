@@ -2,7 +2,7 @@ import os
 import random
 import re
 import uuid
-
+import pymysql
 import requests
 import time
 from bs4 import BeautifulSoup
@@ -11,6 +11,15 @@ import sys
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
                   + '(KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36'}
+
+# 连接数据库
+conn = pymysql.connect(host='119.29.28.81', port=3306, user='root', passwd='Linzijie123!!', db='gzh', charset='utf8')
+# 获取数据库游标
+cursor = conn.cursor()
+# 域名
+preUrl = "http://dubidubi.iask.in/repoter/pic/"
+# 获取当前时间
+currentTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 
 def goToHomeSite(word, page):
@@ -60,7 +69,7 @@ for i in range(1, pictotalAmout + 1):
                       + '(KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
         'Referer': seriesurl + '?url=' + str(i)}
     resp = requests.get("http://www.99mm.me" + "/url.php?id=" + id, headers=myheaders)
-    time.sleep(1)
+    time.sleep(0.7)
     imgsrc = resp.text
     start = imgsrc.find("src=")
     end1 = imgsrc.find('"')
@@ -75,5 +84,9 @@ for i in range(1, pictotalAmout + 1):
         filepath = str(uuid.uuid1())[0:10] + final_pic_src[final_pic_src.rfind("/") + 1:final_pic_src.rfind(
             ".jpg")] + ".jpg"
         finpath = path + "/" + filepath
-        print(filepath)
+        print(preUrl + today + "/" + filepath)
+        cursor.execute('insert pic_info(url,uid,create_time) values(%s,%s,%s)', (preUrl + filepath, sys.argv[3], currentTime))
         open(finpath, "wb").write(imgresponse.content)
+        conn.commit()
+cursor.close()
+conn.close()

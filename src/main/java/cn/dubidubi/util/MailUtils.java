@@ -41,6 +41,29 @@ public class MailUtils {
 		return isSucess;
 	}
 
+	public static boolean sendPicMail(MailDTO dto) {
+		boolean isSucess = false;
+		Email email = new HtmlEmail();
+		email.setHostName("smtp.qq.com");
+		email.setSmtpPort(465);
+		email.setAuthenticator(new DefaultAuthenticator("1622472966@qq.com", "lyvihlbjmafcbdab"));
+		email.setSSLOnConnect(true);
+		try {
+			// 发件人
+			email.setFrom("1622472966@qq.com");
+			// 邮箱头
+			email.setSubject(dto.getTitle());
+			// 邮箱身体
+			email.setContent(dto.getContent(), "text/html;charset=utf-8");
+			email.addTo(dto.getMail());
+			email.send();
+			isSucess = true;
+		} catch (EmailException e) {
+			e.printStackTrace();
+		}
+		return isSucess;
+	}
+
 	/**
 	 * @Description: 生成随机数字验证码
 	 * @data :@return

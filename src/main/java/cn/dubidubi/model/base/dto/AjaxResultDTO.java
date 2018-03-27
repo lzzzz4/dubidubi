@@ -11,6 +11,7 @@ public class AjaxResultDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer code;
 	private String url;
+	private String uid;
 
 	public Integer getCode() {
 		return code;
@@ -28,9 +29,17 @@ public class AjaxResultDTO implements Serializable {
 		this.url = url;
 	}
 
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
 	@Override
 	public String toString() {
-		return "AjaxResultDTO [code=" + code + ", url=" + url + "]";
+		return "AjaxResultDTO [code=" + code + ", url=" + url + ", uid=" + uid + "]";
 	}
 
 }

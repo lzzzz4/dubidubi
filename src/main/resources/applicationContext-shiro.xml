@@ -44,6 +44,7 @@
 		<property name="hashAlgorithmName" value="md5"></property>
 		<property name="hashIterations" value="3"></property>
 	</bean>
+
 	<!-- 定义缓存管理器 -->
 	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 		<property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"></property>
@@ -51,10 +52,18 @@
 	<!-- session 管理器单位毫秒 -->
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-		<property name="globalSessionTimeout" value="600000" />
+		<property name="globalSessionTimeout" value="1800000" />
 		<property name="deleteInvalidSessions" value="true" />
 		<property name="sessionIdUrlRewritingEnabled" value="false" />
+		<property name="sessionValidationScheduler" ref="sessionValidationScheduler" />
 	</bean>
+	<!-- 调度器 -->
+	<bean id="sessionValidationScheduler"
+		class="cn.dubidubi.service.base.QuartzSessionValidationScheduler">
+		<property name="sessionValidationInterval" value="900000" />
+		<property name="sessionManager" ref="sessionManager" />
+	</bean>
+
 	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 

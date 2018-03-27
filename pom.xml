@@ -30,7 +30,7 @@
 		<jedis.version>2.7.2</jedis.version>
 		<solrj.version>4.10.3</solrj.version>
 		<freemarker.version>2.3.23</freemarker.version>
-		<quartz.version>2.2.2</quartz.version>
+		<quartz.version>2.2.1</quartz.version>
 		<shiro.version>1.3.2</shiro.version>
 		<lucene.version>4.10.3</lucene.version>
 	</properties>
@@ -202,10 +202,12 @@
 			<artifactId>freemarker</artifactId>
 			<version>${freemarker.version}</version>
 		</dependency>
+		<!-- 与shiro依赖的1.6冲突 -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>${quartz.version}</version>
+
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
@@ -253,10 +255,17 @@
 			<artifactId>shiro-ehcache</artifactId>
 			<version>${shiro.version}</version>
 		</dependency>
+		<!-- shiro使用的quartz1.6 与quartz2 中 shiro1.2.3是对quartz2的实现 -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-quartz</artifactId>
 			<version>${shiro.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.opensymphony.quartz</groupId>
+					<artifactId>quartz</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- 逆向工程 -->
 		<dependency>

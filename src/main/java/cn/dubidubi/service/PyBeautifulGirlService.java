@@ -1,6 +1,11 @@
 package cn.dubidubi.service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+import cn.dubidubi.model.dto.PicUrlToBase64DTO;
 
 public interface PyBeautifulGirlService {
 
@@ -22,6 +27,8 @@ public interface PyBeautifulGirlService {
 	 * @data :@param word
 	 * @date :2018年3月19日下午12:50:43
 	 */
-	void startPy(String word);
+	Future<PicUrlToBase64DTO> startPy(String word, String uid, String time);
+
+	void waitForComplete(Future<PicUrlToBase64DTO> future) throws InterruptedException, ExecutionException, IOException;
 
 }
