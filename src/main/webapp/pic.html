@@ -201,7 +201,7 @@
 				success : function(data) {
 					data =JSON.parse(data)
 					if (data.code == 9) {
-						alert("将在指定时间发送至邮箱！")
+						window.location.href = "http://dubidubi.iask.in/repoter"+data.url
 					} else if(data.code==200){
 						window.location.href = "http://dubidubi.iask.in/repoter"+data.url
 					}else if(data.code==500){

@@ -29,7 +29,6 @@ public class MailJob implements Job {
 		try (ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(Base64.decodeBase64(str));
 				ObjectInputStream objectInputStream = new ObjectInputStream(arrayInputStream);) {
 			PicUrlToBase64DTO toBase64DTO = (PicUrlToBase64DTO) objectInputStream.readObject();
-			System.out.println(toBase64DTO);
 			List<String> mail = toBase64DTO.getMail();
 			int length = mail.size();
 			for (int i = 0; i < length; i++) {

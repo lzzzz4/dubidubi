@@ -31,4 +31,7 @@ public interface PyBeautifulGirlService {
 
 	void waitForComplete(Future<PicUrlToBase64DTO> future) throws InterruptedException, ExecutionException, IOException;
 
+	public String randomString(String openId, String tail);
+
+	public String dateToCron(String date);
 }

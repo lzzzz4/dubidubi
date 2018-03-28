@@ -26,11 +26,14 @@ resp = requests.get("https://image.baidu.com/search/acjson"
 # resp = requests.get("https://image.baidu.com/search/acjson", data=params, headers=headers)
 resp.encoding = 'utf-8'
 json = resp.json()
+# con = resp.content.decode('utf-8')
+# import json
+# json = json.loads(con)
 for data in json['data']:
     try:
         if data['thumbURL'][8:11].find("ss") >= 0:
             print(data['thumbURL'])
-            print(data['fromPageTitle'])
+           # print(data['fromPageTitle'])
         # print("hello")
     except:
         pass

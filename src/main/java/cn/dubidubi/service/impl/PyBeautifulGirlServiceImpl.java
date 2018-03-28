@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -16,6 +17,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,7 +187,8 @@ public class PyBeautifulGirlServiceImpl implements PyBeautifulGirlService {
 	 * @data :@return
 	 * @date :2018年3月24日下午1:23:51
 	 */
-	private String dateToCron(String date) {
+	@Override
+	public String dateToCron(String date) {
 		// 日期样式为 2018-03-24T13:23
 		// System.out.println(date);
 		String[] dateTime = date.split("T");
@@ -199,8 +203,8 @@ public class PyBeautifulGirlServiceImpl implements PyBeautifulGirlService {
 		return builder.toString();
 	}
 
-	private String randomString(String openId, String tail) {
+	@Override
+	public String randomString(String openId, String tail) {
 		return RandomStringUtils.randomAlphabetic(5) + StringUtils.substring(openId, 2, 5) + tail;
 	}
-
 }
