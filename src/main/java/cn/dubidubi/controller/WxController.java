@@ -57,7 +57,7 @@ public class WxController {
 	}
 
 	/**
-	 * @Description:通用接口，公众号xml信息都发送至此
+	 * @Description:通用接口，公众号xml信息都发送至此，模版消息的回调也在此
 	 * @data :@param request
 	 * @data :@param response
 	 * @data :@return

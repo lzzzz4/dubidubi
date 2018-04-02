@@ -23,6 +23,24 @@ public class WxAll implements Serializable {
 	private Double Precision;
 	private String EventKey;
 	private String MenuId;
+	private String MsgID;
+	private String Status;
+
+	public String getMsgID() {
+		return MsgID;
+	}
+
+	public void setMsgID(String msgID) {
+		MsgID = msgID;
+	}
+
+	public String getStatus() {
+		return Status;
+	}
+
+	public void setStatus(String status) {
+		Status = status;
+	}
 
 	public String getMenuId() {
 		return MenuId;
@@ -108,7 +126,8 @@ public class WxAll implements Serializable {
 	public String toString() {
 		return "WxAll [ToUserName=" + ToUserName + ", FromUserName=" + FromUserName + ", CreateTime=" + CreateTime
 				+ ", MsgType=" + MsgType + ", Event=" + Event + ", Latitude=" + Latitude + ", Longitude=" + Longitude
-				+ ", Precision=" + Precision + ", EventKey=" + EventKey + "]";
+				+ ", Precision=" + Precision + ", EventKey=" + EventKey + ", MenuId=" + MenuId + ", MsgID=" + MsgID
+				+ ", Status=" + Status + "]";
 	}
 
 }

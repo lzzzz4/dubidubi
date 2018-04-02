@@ -24,6 +24,7 @@ public class WxBaseServiceImpl implements WxBaseService {
 		String body = request.body();
 		JSONObject jsonObject = JSON.parseObject(body);
 		String access_token = jsonObject.getString("access_token");
+		LoggerFactory.getLogger(this.getClass()).info("获取accesstoken");
 		return access_token;
 	}
 
@@ -41,7 +42,9 @@ public class WxBaseServiceImpl implements WxBaseService {
 		if (accessToken == null) {
 			accessToken = getRealAccessToken();
 		}
+		LoggerFactory.getLogger(this.getClass()).info("获得access_token" + accessToken);
 		return accessToken;
+
 	}
 
 	@Override

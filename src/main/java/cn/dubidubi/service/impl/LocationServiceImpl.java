@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import cn.dubidubi.model.dto.GaoDeAddressDTO;
 import cn.dubidubi.model.xml.PushMessage;
 import cn.dubidubi.model.xml.WxAll;
 import cn.dubidubi.service.LocationService;
+import cn.dubidubi.service.WxTempService;
 
 /**
  * @author 16224
@@ -31,6 +33,8 @@ import cn.dubidubi.service.LocationService;
 public class LocationServiceImpl implements LocationService {
 	@Autowired
 	LocationMapper locationMapper;
+	@Autowired
+	WxTempService wxTempService;
 	// 高德的api key
 	static String key = "60b4499bd0230e7a86941c12881e6f51";
 	static FastDateFormat fastDateFormat = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
@@ -71,6 +75,10 @@ public class LocationServiceImpl implements LocationService {
 		String body = request.body();
 		JSONObject jsonObject = JSON.parseObject(body);
 		JSONArray live = jsonObject.getJSONArray("lives");
+		// 雨天发送模版消息
+		// if (live.getJSONObject(0).getString("weather").indexOf("雨") != -1) {
+		wxTempService.sendTempMessage(live);
+		// }
 		StringBuilder stringBuilder = new StringBuilder();
 		// 拼接天气预报字符串
 		stringBuilder.append("天气:").append(live.getJSONObject(0).getString("weather")).append("\n").append("温度:")
@@ -126,7 +134,5 @@ public class LocationServiceImpl implements LocationService {
 		pushMessage.setCreateTime(Timestamp.valueOf(LocalDateTime.now()).getTime());
 		return pushMessage;
 	}
-	public static void main(String[] args) {
-		
-	}
+
 }
